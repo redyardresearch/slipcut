@@ -62,19 +62,18 @@ def process_pdf(pdf_file_stream):
                 pdf_writer.write(pdf_bytes)
                 pdf_bytes.seek(0)
                 zipf.writestr(f'{folder_path}/{output_file_name}', pdf_bytes.read())
+
+            # if there are more than 250 pages, add a note as a text file in the zip
+            if pdf.get_num_pages() > 250:
+                note_text = f'The original PDF has {pdf.get_num_pages()} pages, but only the first 250 pages were processed.'
+                zipf.writestr('note.txt', note_text)
+            # if there are skipped pages, add a note as a text file in the zip
+            if skipped_pages:
+                skipped_text = f'The following pages were skipped due to missing data: {", ".join(map(str, skipped_pages))}'
+                zipf.writestr('skipped_pages.txt', skipped_text)
         except:
-            # return en empty zip with a note if there was an error processing the PDF
+        # return en empty zip with a note if there was an error processing the PDF
             zipf.writestr('error.txt', 'An error occurred while processing the PDF file. Please check the file format and content.')
-
-
-    # if there are more than 250 pages, add a note as a text file in the zip
-    if pdf.get_num_pages() > 250:
-        note_text = f'The original PDF has {pdf.get_num_pages()} pages, but only the first 250 pages were processed.'
-        zipf.writestr('note.txt', note_text)
-    # if there are skipped pages, add a note as a text file in the zip
-    if skipped_pages:
-        skipped_text = f'The following pages were skipped due to missing data: {", ".join(map(str, skipped_pages))}'
-        zipf.writestr('skipped_pages.txt', skipped_text)
     # Reset the buffer position to the beginning
     zip_buffer.seek(0)
     return zip_buffer
