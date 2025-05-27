@@ -36,7 +36,7 @@ def process_pdf(pdf_file_stream):
                         "[0-9LMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][0-9LMNP-V]|[0L][1-9MNP-V]))[A-Z]",
                         pdf_text, re.I)
                     if not cf_match:
-                        skipped_pages.append(page_num)
+                        skipped_pages.append(page_num+1)
                         continue  # skip page if CF not found
                     cf = cf_match[0].replace('\n', '')
 
@@ -45,7 +45,7 @@ def process_pdf(pdf_file_stream):
                         "([0-9]{4}))",
                         pdf_text, re.I)
                     if not mese_anno_match:
-                        skipped_pages.append(page_num)
+                        skipped_pages.append(page_num+1)
                         continue  # skip page if month/year not found
                     (mese_anno, mese_orig, anno) = mese_anno_match[0]
                     mese_dict = {
