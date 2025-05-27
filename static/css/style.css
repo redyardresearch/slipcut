@@ -252,28 +252,14 @@ footer {
     font-size: 1.2em;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: #e0e0e0;
-    border-radius: 4px;
-    margin: 0.5rem 0;
-    overflow: hidden;
+
+
+.privacy-info {
+    font-size: 0.9em;
 }
 
-.progress-bar::after {
-    content: '';
-    display: block;
-    width: 0%;
-    height: 100%;
-    background: #ff0000;
-    border-radius: 4px;
-    transition: width 0.3s;
-}
-
-.loading-icon {
-    margin: 0.5rem 0;
-    color: #ff0000;
+.privacy-info h2 {
+    font-size: 1.2em;
 }
 
 .footer-cookie {

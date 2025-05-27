@@ -5,7 +5,7 @@ const fileInfo = document.getElementById('fileInfo');
 const submitBtn = document.getElementById('submitBtn');
 const form = document.getElementById('uploadForm');
 const privacyInfoBtns = document.querySelectorAll('.privacyInfoBtn')
-const modal = document.getElementById('myModal');
+const modal = document.getElementById('privacyInfoModal');
 const closeBtn = modal.querySelector('.modal-close');
 
 uploadBtn.addEventListener('click', () => fileInput.click());
