@@ -1,23 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Splitter</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        form { margin: 20px 0; }
-        input[type="file"] { margin-bottom: 10px; }
-        button { padding: 10px 20px; background-color: #007BFF; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SlipCut</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
+
 <body>
-<h1>Upload a PDF File</h1>
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept=".pdf" required>
-    <br>
-    <button type="submit">Process PDF</button>
-</form>
+    <header>
+        <div class="header-content">
+            <a href="https://redyard.com/" target="_blank" rel="noopener noreferrer">
+                <img class="ry-brand" src="https://redyard.com/wp-content/uploads/2022/07/Logo_RY.png"
+                    alt="Red Yard Research" />
+            </a>
+
+            <h2 class="brand-name">SlipCut</h2>
+            <nav>
+                <a href="https://redyard.com/" target="_blank" rel="noopener noreferrer">Red Yard Research</a>
+                <a href="https://redyard.com/chi-siamo/" target="_blank" rel="noopener noreferrer">Chi siamo</a>
+                <a href="https://redyard.com/blog/" target="_blank" rel="noopener noreferrer">Blog</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <div class="container-header">
+            <h1>Un PDF. Tante buste paga. Un solo clic.</h1>
+            <h5>
+                Carica il tuo file: estrarremo automaticamente i dati chiave e
+                ti
+                restituiremo un archivio ordinato con tutti i cedolini, già
+                separati per
+                dipendente e mese. Facile, veloce, automatico.
+            </h5>
+        </div>
+
+        <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+            <div id="dropArea" class="upload-area">
+                <i class="fas fa-file-pdf icon"></i>
+                <p>Trascina qui il tuo PDF</p>
+                <p class="or">oppure</p>
+                <button type="button" id="uploadBtn" class="btn">
+                    Scegli un file
+                </button>
+                <input type="file" id="fileInput" accept=".pdf" required style="display: none" />
+            </div>
+            <div id="fileInfo" class="file-info"></div>
+            <div id="progressContainer" style="display: none">
+                <div id="progressBar" class="progress-bar"></div>
+                <span id="progressText">0%</span>
+                <div id="loadingIcon" class="loading-icon">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+            <button type="submit" id="submitBtn" class="btn" style="display: none">
+                Elabora
+            </button>
+            <div class="privacy-disclaimer">
+                <i class="fa-solid fa-lock"></i>
+                I dati dei tuoi dipendenti sono al sicuro.
+                <span class="privacyInfoBtn">Ulteriori informazioni</span>
+            </div>
+            <div class="cta">
+                <b>Ti piace?</b> Visita il <a href="https://redyard.com/" target="_blank"
+                    rel="noopener noreferrer">nostro
+                    sito</a> e scopri cosa possiamo fare per te!
+            </div>
+
+
+        </form>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-cookie">
+                Questo sito utilizza solo cookie tecnici essenziali per il funzionamento dell’applicazione. Nessun
+                tracciamento viene effettuato.
+                <span class="privacyInfoBtn">
+                    Leggi l’informativa completa.
+                </span>
+            </div>
+            <div class="footer-main">
+                <p>©2019 - 2025 <span style="color:#000">Red Yard Research SRL</span> - All Rights Reserved | P.IVA:
+                    03655800781 | Made in Italy, with ❤️</p>
+                <div class="social">
+                    <a href="https://www.facebook.com/redyardresearch" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/company/redyards/" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.instagram.com/redyardresearch/" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Informativa sulla Privacy</h2>
+            <h5>Ultimo aggiornamento: 6 maggio 2025</h5>
+            <p>
+                SlipCut rispetta la tua privacy. Di seguito ti spieghiamo in
+                modo
+                chiaro e trasparente come trattiamo i dati personali.
+            </p>
+
+            <div class="privacy-info">
+                <h2>1. Titolare del trattamento</h2>
+                <p>
+                    Il titolare del trattamento è
+                    <a href="https://redyard.com/" target="_blank" rel="noopener noreferrer">Red Yard Research
+                        S.r.l.</a>.
+                </p>
+
+                <h2>2. Dati trattati</h2>
+                <p>
+                    Quando carichi un file PDF contenente buste paga:
+                <ul>
+                    <li>Il file viene trasmesso in forma temporanea al server</li>
+                    <li>I dati contenuti (es. codice fiscale, mese, anno) vengono elaborati esclusivamente in memoria
+                    </li>
+                    <li>Non salviamo, archiviamo o analizziamo in alcun modo i contenuti dopo l'elaborazione</li>
+                </ul>
+                </p>
+
+                <h2>3. Finalità del trattamento</h2>
+                <p>
+                    I dati vengono trattati solo per generare un archivio ZIP contenente i cedolini separati. Non
+                    utilizziamo i tuoi dati per alcuna altra finalità.
+                </p>
+
+                <h2>4. Base giuridica</h2>
+                <p>
+                    Il trattamento si basa sul consenso implicito dell’utente, che carica volontariamente il file al
+                    fine di ricevere il risultato.
+                </p>
+
+                <h2>5. Conservazione dei dati</h2>
+                <p>
+                    Nessun dato personale viene salvato. Tutto il contenuto viene elaborato in tempo reale, in memoria
+                    volatile, e cancellato immediatamente dopo la generazione dell’output.
+                </p>
+
+                <h2>6. Trasferimento dei dati</h2>
+                <p>
+                    I dati non vengono trasferiti a terzi né fuori dall’Unione Europea.
+                </p>
+
+                <h2>7. Diritti dell’interessato</h2>
+                <p>
+                    Puoi richiedere in qualsiasi momento informazioni su come trattiamo i dati personali, anche se non
+                    li conserviamo.
+                </p>
+
+                <h2>8. Misure di sicurezza</h2>
+                <p>
+                    SlipCut utilizza la cifratura HTTPS per proteggere la trasmissione dei dati.
+                </p>
+
+                <h2>Uso dei cookie</h2>
+                Questo sito utilizza solo cookie tecnici, necessari per:
+                <ul>
+                    <li>Garantire il corretto funzionamento dell'applicazione (es. gestione sessione)</li>
+                    <li>Proteggere la sicurezza della comunicazione (es. CSRF token)</li>
+                </ul>
+
+                Non vengono utilizzati cookie di profilazione, né cookie di terze parti.
+                Per questo motivo non è richiesto il consenso preventivo da parte dell’utente.
+                <div>
+                    Per qualsiasi domanda e per ulteriori informazioni, <a href="https://redyard.com/contatti/"
+                        target="_blank" rel="noopener noreferrer">contattaci</a>.
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
