@@ -53,7 +53,7 @@ def process_pdf(pdf_file_stream):
                         "LUGLIO": "07", "AGOSTO": "08", "SETTEMBRE": "09", "OTTOBRE": "10", "NOVEMBRE": "11", "DICEMBRE": "12"
                     }.get(mese_orig.upper(), "ZZ")
                 except:
-                    skipped_pages.append(page_num)
+                    skipped_pages.append(page_num+1)
                     continue  # skip page on any unexpected error
 
                 folder_path = f'{cf.upper()}/{anno}{mese_dict}'
